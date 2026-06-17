@@ -144,8 +144,12 @@
                 </div>
                 <div class="p-6 space-y-4">
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-600">Subtotal Item</span>
+                        <span class="text-slate-600">Subtotal Kotor</span>
                         <span class="font-medium text-slate-900">Rp <span id="summary-subtotal">0</span></span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-slate-600">
+                        <span>Total Diskon Item</span>
+                        <span>- Rp <span id="summary-item-discount">0</span></span>
                     </div>
                     <div class="flex items-center justify-between text-sm">
                         <div class="flex items-center gap-1 text-slate-600">
@@ -199,7 +203,8 @@
             };
 
             const calculateTotals = () => {
-                let subtotal = 0;
+                let grossSubtotal = 0;
+                let totalItemDiscounts = 0;
                 
                 // Calculate each row
                 const rows = document.querySelectorAll('.item-row');
@@ -217,21 +222,25 @@
                          discPctInput.value = parseFloat(pct.toFixed(2));
                     }
 
-                    const totalItem = (qty * price) - discAmount;
+                    const grossTotal = qty * price;
+                    const totalItem = grossTotal - discAmount;
                     const finalTotalItem = totalItem > 0 ? totalItem : 0;
                     
                     row.querySelector('.item-total-text').textContent = formatCurrency(finalTotalItem);
-                    subtotal += finalTotalItem;
+                    grossSubtotal += grossTotal;
+                    totalItemDiscounts += discAmount;
                 });
                 
                 // Calculate Order Summary
                 const discOrder = parseFloat(discOrderInput.value) || 0;
-                const netto = Math.max(0, subtotal - discOrder);
+                const totalDiscount = totalItemDiscounts + discOrder;
+                const netto = Math.max(0, grossSubtotal - totalDiscount);
                 const dpp = netto / 1.11;
                 const ppn = dpp * 0.11;
                 const grandtotal = netto;
 
-                document.getElementById('summary-subtotal').textContent = formatCurrency(subtotal);
+                document.getElementById('summary-subtotal').textContent = formatCurrency(grossSubtotal);
+                document.getElementById('summary-item-discount').textContent = formatCurrency(totalItemDiscounts);
                 document.getElementById('summary-netto').textContent = formatCurrency(netto);
                 document.getElementById('summary-dpp').textContent = formatCurrency(dpp);
                 document.getElementById('summary-ppn').textContent = formatCurrency(ppn);

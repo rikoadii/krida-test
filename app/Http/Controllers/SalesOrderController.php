@@ -60,9 +60,14 @@ class SalesOrderController extends Controller
                 ];
             });
 
-            $subtotal = round((float) $details->sum('totalItem'), 2);
-            $discAmount = round((float) ($validated['discAmount'] ?? 0), 2);
-            $netto = round($subtotal - $discAmount, 2);
+            $subtotal = round((float) $details->sum(function($item) {
+                return $item['qty'] * $item['price'];
+            }), 2);
+            $itemDiscounts = round((float) $details->sum('discAmount'), 2);
+            $headerDiscount = round((float) ($validated['discAmount'] ?? 0), 2);
+            
+            $totalDiscAmount = $itemDiscounts + $headerDiscount;
+            $netto = round($subtotal - $totalDiscAmount, 2);
             $dpp = round($netto / 1.11, 2);
             $ppn = round($dpp * 0.11, 2);
 
@@ -79,7 +84,7 @@ class SalesOrderController extends Controller
                 'orderDate' => $validated['orderDate'],
                 'custId' => (int) $validated['custId'],
                 'subtotal' => $subtotal,
-                'discAmount' => $discAmount,
+                'discAmount' => $totalDiscAmount,
                 'netto' => $netto,
                 'dpp' => $dpp,
                 'ppn' => $ppn,

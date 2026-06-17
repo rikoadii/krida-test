@@ -187,7 +187,7 @@
                     <span class="font-medium text-slate-900 font-mono">Rp {{ number_format((float) $order->subtotal, 2, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center justify-between text-sm">
-                    <span class="text-red-500">Diskon Khusus</span>
+                    <span class="text-red-500">Total Diskon</span>
                     <span class="font-medium text-red-500 font-mono">- Rp {{ number_format((float) $order->discAmount, 2, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center justify-between text-sm">
