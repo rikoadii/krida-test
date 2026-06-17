@@ -16,6 +16,7 @@ class Item extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'itemId',
         'deskripsi',
         'price',
     ];

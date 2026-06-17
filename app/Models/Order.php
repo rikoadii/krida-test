@@ -17,6 +17,7 @@ class Order extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'orderId',
         'orderNo',
         'orderDate',
         'custId',
