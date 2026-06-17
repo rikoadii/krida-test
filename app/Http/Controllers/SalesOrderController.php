@@ -52,7 +52,7 @@ class SalesOrderController extends Controller
                 $discAmount = (float) ($item['discAmount'] ?? 0);
 
                 return [
-                    'itemId' => (int) $item['itemId'],
+                    'itemId' => (string) $item['itemId'],
                     'qty' => $qty,
                     'price' => $price,
                     'discAmount' => $discAmount,
@@ -79,7 +79,12 @@ class SalesOrderController extends Controller
             $count = $latestOrder ? (int) substr($latestOrder->orderNo, -4) + 1 : 1;
             $orderNo = 'SO-' . $date->format('Ym') . '-' . str_pad((string)$count, 4, '0', STR_PAD_LEFT);
 
+            $latestOverall = Order::orderBy('orderId', 'desc')->first();
+            $orderIdCount = $latestOverall ? ((int) substr($latestOverall->orderId, 4)) + 1 : 1;
+            $newOrderId = 'ORD-' . str_pad((string)$orderIdCount, 3, '0', STR_PAD_LEFT);
+
             $order = Order::create([
+                'orderId' => $newOrderId,
                 'orderNo' => $orderNo,
                 'orderDate' => $validated['orderDate'],
                 'custId' => (int) $validated['custId'],

@@ -10,6 +10,8 @@ class Item extends Model
     protected $table = 'items';
 
     protected $primaryKey = 'itemId';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     public $timestamps = false;
 

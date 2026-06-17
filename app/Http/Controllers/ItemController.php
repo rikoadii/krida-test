@@ -36,7 +36,14 @@ class ItemController extends Controller
 
     public function store(StoreItemRequest $request): RedirectResponse
     {
-        Item::create($request->validated());
+        $latest = Item::orderBy('itemId', 'desc')->first();
+        $nextNum = $latest ? ((int) substr($latest->itemId, 5)) + 1 : 1;
+        $nextId = 'ITEM-' . str_pad((string)$nextNum, 3, '0', STR_PAD_LEFT);
+
+        $data = $request->validated();
+        $data['itemId'] = $nextId;
+        
+        Item::create($data);
 
         return redirect()
             ->route('items.index')

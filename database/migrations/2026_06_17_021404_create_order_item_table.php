@@ -13,22 +13,17 @@ return new class extends Migration
     {
         Schema::create('orderItem', function (Blueprint $table) {
             $table->id('orderItemId');
-            $table->foreignId('orderId')
-                ->index('idx_orderItem_orderId')
-                ->constrained(
-                    table: 'orders',
-                    column: 'orderId',
-                    indexName: 'fk_orderItem_orders',
-                )
+            $table->string('orderId', 20)->index('idx_orderItem_orderId');
+            $table->foreign('orderId', 'fk_orderItem_orders')
+                ->references('orderId')
+                ->on('orders')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('itemId')
-                ->index('idx_orderItem_itemId')
-                ->constrained(
-                    table: 'items',
-                    column: 'itemId',
-                    indexName: 'fk_orderItem_items',
-                )
+                
+            $table->string('itemId', 20)->index('idx_orderItem_itemId');
+            $table->foreign('itemId', 'fk_orderItem_items')
+                ->references('itemId')
+                ->on('items')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
             $table->decimal('qty', total: 15, places: 2)->default(0);

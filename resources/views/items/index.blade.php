@@ -38,7 +38,7 @@
                             <tr class="hover:bg-slate-50">
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
-                                        ITEM-{{ str_pad($item->itemId, 3, '0', STR_PAD_LEFT) }}
+                                        {{ str_pad($item->itemId, 3, '0', STR_PAD_LEFT) }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3">{{ $item->deskripsi }}</td>
