@@ -34,7 +34,7 @@
                     <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200">
                         <tr>
                             <th scope="col" class="px-6 py-4">ID Customer</th>
-                            <th scope="col" class="px-6 py-4">Nama Perusahaan</th>
+                            <th scope="col" class="px-6 py-4">Nama Customer</th>
                             <th scope="col" class="px-6 py-4">Alamat Lengkap</th>
                             <th scope="col" class="px-6 py-4">Kontak (HP)</th>
                             <th scope="col" class="px-6 py-4 text-right">Aksi</th>
@@ -76,7 +76,7 @@
                                                         <span class="col-span-2 font-semibold">CUST-{{ str_pad($customer->custId, 4, '0', STR_PAD_LEFT) }}</span>
                                                     </div>
                                                     <div class="grid grid-cols-3 gap-2">
-                                                        <span class="font-medium text-slate-500">Nama Perusahaan</span>
+                                                        <span class="font-medium text-slate-500">Nama Customer</span>
                                                         <span class="col-span-2">{{ $customer->cust_nama }}</span>
                                                     </div>
                                                     <div class="grid grid-cols-3 gap-2">
@@ -105,7 +105,7 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <div>
-                                                        <label for="cust_nama-{{ $customer->custId }}" class="block text-sm font-medium text-slate-700 mb-1">Nama Perusahaan / Customer</label>
+                                                        <label for="cust_nama-{{ $customer->custId }}" class="block text-sm font-medium text-slate-700 mb-1">Nama Customer</label>
                                                         <input id="cust_nama-{{ $customer->custId }}" name="cust_nama" type="text" value="{{ old('cust_nama', $customer->cust_nama) }}" required maxlength="100" class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7]">
                                                     </div>
                                                     <div>

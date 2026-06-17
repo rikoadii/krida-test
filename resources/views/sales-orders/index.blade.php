@@ -48,7 +48,6 @@
                                 <td class="px-4 py-3">
                                     <div class="flex flex-wrap justify-end gap-2">
                                         <button type="button" onclick="document.getElementById('modal-detail-{{ $order->orderId }}').classList.remove('hidden')" class="rounded-md border border-slate-200 px-3 py-1.5 text-xs font-medium hover:bg-slate-100 text-slate-700">Detail</button>
-                                        <button type="button" onclick="document.getElementById('modal-hapus-{{ $order->orderId }}').classList.remove('hidden')" class="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50">Hapus</button>
                                     </div>
                                     
                                     <!-- Modal Detail -->
@@ -118,28 +117,6 @@
                                                 <div class="flex justify-end">
                                                     <button type="button" onclick="document.getElementById('modal-detail-{{ $order->orderId }}').classList.add('hidden')" class="rounded-md bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200 focus:outline-none">Tutup</button>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Modal Hapus -->
-                                    <div id="modal-hapus-{{ $order->orderId }}" class="hidden fixed inset-0 z-50 overflow-y-auto">
-                                        <div class="flex min-h-screen items-center justify-center p-4 text-center">
-                                            <div class="fixed inset-0 bg-slate-900/50 transition-opacity" onclick="this.parentElement.parentElement.classList.add('hidden')"></div>
-                                            <div class="relative w-full max-w-sm transform overflow-hidden rounded-xl bg-white text-center align-middle shadow-xl transition-all p-6">
-                                                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 mb-4">
-                                                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                                    </svg>
-                                                </div>
-                                                <h3 class="text-lg font-semibold leading-6 text-slate-900 mb-2">Hapus Sales Order</h3>
-                                                <p class="text-sm text-slate-500 mb-6">Apakah Anda yakin ingin menghapus Sales Order <strong>{{ $order->orderNo }}</strong>? Tindakan ini tidak dapat dibatalkan.</p>
-                                                <form action="{{ route('sales-orders.destroy', $order) }}" method="POST" class="flex justify-center gap-3">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" onclick="document.getElementById('modal-hapus-{{ $order->orderId }}').classList.add('hidden')" class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none">Batal</button>
-                                                    <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none shadow-sm">Ya, Hapus</button>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
