@@ -17,7 +17,8 @@ class CustomerController extends Controller
         $query = Customer::query()
             ->when($search, function ($q) use ($search) {
                 $q->where('cust_nama', 'like', "%{$search}%")
-                  ->orWhere('cust_hp', 'like', "%{$search}%");
+                  ->orWhere('cust_hp', 'like', "%{$search}%")
+                  ->orWhere('cust_alamat', 'like', "%{$search}%");
                   
                 $searchInt = (int) preg_replace('/[^0-9]/', '', $search);
                 if ($searchInt > 0) {
