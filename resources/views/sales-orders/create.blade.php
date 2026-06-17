@@ -55,7 +55,7 @@
                 <table class="w-full text-left text-sm text-slate-600">
                     <thead class="bg-slate-50 text-xs font-semibold text-slate-500 border-b border-slate-200">
                         <tr>
-                            <th class="w-10 px-4 py-3 text-center"></th>
+                            <th class="px-4 py-3 w-36">Item ID</th>
                             <th class="px-4 py-3 min-w-[200px]">Item</th>
                             <th class="px-4 py-3 w-28">Qty</th>
                             <th class="px-4 py-3 w-36">Harga Satuan</th>
@@ -68,13 +68,18 @@
                     <tbody class="divide-y divide-slate-100 bg-white" id="item-table-body">
                         @for ($index = 0; $index < max(3, count(old('items', []))); $index++)
                             <tr class="hover:bg-slate-50 group item-row">
-                                <td class="px-4 py-3 text-center text-slate-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 cursor-move mx-auto">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-                                    </svg>
+                                <td class="px-4 py-3">
+                                    <select class="block w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7] appearance-none calc-select item-id-select">
+                                        <option value="" data-price="0">Pilih ID</option>
+                                        @foreach ($items as $item)
+                                            <option value="{{ $item->itemId }}" data-price="{{ $item->price }}" @selected((string) old("items.{$index}.itemId") === (string) $item->itemId)>
+                                                ITEM-{{ str_pad($item->itemId, 3, '0', STR_PAD_LEFT) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <select name="items[{{ $index }}][itemId]" class="block w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7] appearance-none bg-no-repeat calc-select item-select" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748B%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-position: right 0.5rem top 50%; background-size: 0.65rem auto;">
+                                    <select name="items[{{ $index }}][itemId]" class="block w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7] appearance-none calc-select item-select">
                                         <option value="" data-price="0">Pilih item</option>
                                         @foreach ($items as $item)
                                             <option value="{{ $item->itemId }}" data-price="{{ $item->price }}" @selected((string) old("items.{$index}.itemId") === (string) $item->itemId)>
@@ -109,7 +114,7 @@
                                     Rp <span class="item-total-text">0</span>
                                 </td>
                                 <td class="px-4 py-3 text-center">
-                                    <button type="button" class="text-slate-400 hover:text-red-500 transition-colors" title="Hapus Baris">
+                                    <button type="button" class="text-slate-400 hover:text-red-500 transition-colors delete-row-btn" title="Hapus Baris">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mx-auto">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                         </svg>
@@ -130,14 +135,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-6 items-start">
-            <!-- Catatan Internal -->
-            <div class="flex-1 w-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                <label for="catatan" class="block text-sm font-bold text-slate-900 mb-2">Catatan Internal (Opsional)</label>
-                <textarea id="catatan" name="catatan" rows="5" class="block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7] placeholder-slate-400" placeholder="Tambahkan catatan khusus untuk pesanan ini..."></textarea>
-            </div>
-
-            <!-- Ringkasan Transaksi -->
+        <div class="flex flex-col lg:flex-row gap-6 items-start justify-end">            <!-- Ringkasan Transaksi -->
             <div class="w-full lg:w-[400px] shrink-0 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-slate-200">
                     <h2 class="text-lg font-bold text-slate-900">Ringkasan Transaksi</h2>
@@ -147,18 +145,9 @@
                         <span class="text-slate-600">Subtotal Kotor</span>
                         <span class="font-medium text-slate-900">Rp <span id="summary-subtotal">0</span></span>
                     </div>
-                    <div class="flex items-center justify-between text-sm text-slate-600">
-                        <span>Total Diskon Item</span>
-                        <span>- Rp <span id="summary-item-discount">0</span></span>
-                    </div>
                     <div class="flex items-center justify-between text-sm">
-                        <div class="flex items-center gap-1 text-slate-600">
-                            <span>Diskon Order</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                            </svg>
-                        </div>
-                        <input id="discAmount" name="discAmount" type="number" value="{{ old('discAmount', '0') }}" min="0" step="1" class="calc-input-order w-24 rounded-md border border-slate-300 px-2 py-1 text-right text-sm shadow-sm focus:border-[#0f4eb7] focus:outline-none focus:ring-1 focus:ring-[#0f4eb7]">
+                        <span class="text-red-500">Total Diskon</span>
+                        <span class="font-medium text-red-500">- Rp <span id="summary-item-discount">0</span></span>
                     </div>
                     
                     <hr class="border-slate-200 my-4 border-dashed">
@@ -232,8 +221,8 @@
                 });
                 
                 // Calculate Order Summary
-                const discOrder = parseFloat(discOrderInput.value) || 0;
-                const totalDiscount = totalItemDiscounts + discOrder;
+                const totalDiscount = totalItemDiscounts;
+                
                 const netto = Math.max(0, grossSubtotal - totalDiscount);
                 const dpp = netto / 1.11;
                 const ppn = dpp * 0.11;
@@ -307,7 +296,68 @@
                 }
             });
 
-            discOrderInput.addEventListener('input', calculateTotals);
+
+
+            // Event listener for delete button
+            tableBody.addEventListener('click', function(e) {
+                const btn = e.target.closest('.delete-row-btn');
+                if (btn) {
+                    const row = btn.closest('.item-row');
+                    const rows = document.querySelectorAll('.item-row');
+                    if (rows.length > 1) {
+                        const selects = row.querySelectorAll('select');
+                        selects.forEach(s => {
+                            if(s.tomselect) s.tomselect.destroy();
+                        });
+                        row.remove();
+                        calculateTotals();
+                    } else {
+                        alert('Minimal harus ada 1 item pada pesanan.');
+                    }
+                }
+            });
+
+            // Initialize TomSelect for Customer
+            if(document.getElementById('custId')) {
+                new TomSelect('#custId', {
+                    create: false,
+                    placeholder: 'Pilih Pelanggan...'
+                });
+            }
+
+            // Initialize TomSelect for Items and Item IDs
+            document.querySelectorAll('.item-row').forEach(function(row) {
+                const idSelect = row.querySelector('.item-id-select');
+                const descSelect = row.querySelector('.item-select');
+                
+                let idTs, descTs;
+
+                if (idSelect) {
+                    idTs = new TomSelect(idSelect, {
+                        create: false,
+                        placeholder: 'Pilih ID...',
+                        onChange: function(value) {
+                            if(descTs && descTs.getValue() !== value) {
+                                descTs.setValue(value);
+                            }
+                            idSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
+                }
+
+                if (descSelect) {
+                    descTs = new TomSelect(descSelect, {
+                        create: false,
+                        placeholder: 'Pilih item...',
+                        onChange: function(value) {
+                            if(idTs && idTs.getValue() !== value) {
+                                idTs.setValue(value);
+                            }
+                            descSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
+                }
+            });
 
             // Initial calculation
             calculateTotals();

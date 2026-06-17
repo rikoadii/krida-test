@@ -107,7 +107,6 @@
                         <th scope="col" class="px-6 py-4">Tanggal</th>
                         <th scope="col" class="px-6 py-4">Nama Pelanggan</th>
                         <th scope="col" class="px-6 py-4 text-right">Total Akhir</th>
-                        <th scope="col" class="px-6 py-4 text-center">Status</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200">
@@ -117,13 +116,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $order->orderDate->format('d M Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-900">{{ $order->customer?->cust_nama ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right font-medium">Rp {{ number_format($order->grandtotal, 2, ',', '.') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">Selesai</span>
-                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-slate-500">Belum ada pesanan terbaru.</td>
+                        <td colspan="4" class="px-6 py-4 text-center text-slate-500">Belum ada pesanan terbaru.</td>
                     </tr>
                     @endforelse
                 </tbody>
